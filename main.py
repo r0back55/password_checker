@@ -2,6 +2,11 @@
 
 password = input("Enter new password: ")
 
+# List of common weak passwords
+common_passwords = [
+    "123456", "password", "123456789", "12345678", "12345", "1234567", "qwerty", "abc123", "password1", "letmein"
+]
+
 # Prompt user to customize special characters
 custom_special_characters = input("Enter allowed special characters (leave empty for default set): ")
 if not custom_special_characters:
@@ -15,6 +20,9 @@ has_special_char = False
 
 # Minimum digit requirement
 min_digits = 2
+
+# Check if the password is common
+is_common_password = password in common_passwords
 
 # Check conditions in one loop
 for char in password:
@@ -45,7 +53,9 @@ if has_special_char:
     conditions_met += 1
 
 # Determine password strength based on the number of conditions met
-if conditions_met == 5:
+if is_common_password:
+    strength = "Weak (Common Password)"
+elif conditions_met == 5:
     strength = "Strong"
 elif conditions_met >= 3:
     strength = "Medium"
@@ -54,8 +64,10 @@ else:
 
 # Final feedback
 print(f"Password strength: {strength}")
-if strength == "Weak":
+if strength.startswith("Weak"):
     print("Weak Password. Issues with:")
+    if is_common_password:
+        print("- Password is too common and easily guessable.")
     if not is_valid_length:
         print("- Password should be at least 8 characters long.")
     if not has_min_digits:
