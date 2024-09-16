@@ -2,6 +2,17 @@
 
 password = input("Enter new password: ")
 
+
+# List of the last 10 passwords
+with open("./used_passwords.txt", "r") as file:
+    used_passwords = file.read()
+    print(used_passwords)
+
+    while password in used_passwords:
+        print("Password used not so long ago.")
+        password = input("Enter new password: ")
+
+
 # List of common weak passwords
 common_passwords = [
     "123456", "password", "123456789", "12345678", "12345", "1234567", "qwerty", "abc123", "password1", "letmein"
