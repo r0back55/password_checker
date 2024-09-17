@@ -3,15 +3,32 @@
 password = input("Enter new password: ")
 
 
-# List of the last 10 passwords
-with open("./used_passwords.txt", "r") as file:
-    used_passwords = file.read()
-    print(used_passwords)
+def password_history():
+    with open("./used_passwords.txt", "r") as file_read:
+        lines = file_read.readlines()
+    return lines
 
-    while password in used_passwords:
+
+# List of the last 10 passwords
+pass_history = password_history()
+
+for element in pass_history:
+    element.strip("\n")
+
+    while element in pass_history:
         print("Password used not so long ago.")
         password = input("Enter new password: ")
+    else:
+        if len(pass_history) == 10:
+            pass_history.pop(0)
+            pass_history.append(password + "\n")
 
+            with open("./used_passwords.txt", "w") as file:
+                used_passwords = file.writelines(pass_history)
+        else:
+            pass_history.append(password + "\n")
+            with open("./used_passwords.txt", "w") as file:
+                used_passwords = file.writelines(pass_history)
 
 # List of common weak passwords
 common_passwords = [
